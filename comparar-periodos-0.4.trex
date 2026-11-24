@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest manifest-version="0.1" xmlns="http://www.tableau.com/xml/extension_manifest">
+  <dashboard-extension id="com.example.tableau.comparar-periodos-dashboard" extension-version="0.4.0">
+    <default-locale>en_US</default-locale>
+    <name resource-id="name"/>
+    <description>Seleciona dois intervalos de datas independentes para comparar no painel.</description>
+    <author name="Yuri Fernando dos Santos" email="46434891+fernandoyuri13@users.noreply.github.com" website="https://github.com/fernandoyuri13"/>
+    <min-api-version>1.9</min-api-version>
+    <source-location>
+      <url>http://localhost:8765/comparar-periodos-0.4.html</url>
+    </source-location>
+    <icon>iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAABlElEQVR42u2cMVIDMQxFd/+kooSau3CAUNNwCTgIXIKGkiEHyF1Sh5IWOmbIJFk7lu0v66vKzmRl/beSLCeTTJNMJjOwueTm6/XLD7O4r83z3AwMOwwrSPPoQC4FhEhQcrQgEpQcTYgGJVUbIkJJ0YioUJa0YpKlZUykbDmneVV70d3j9u/17dsdjS+TOcZCyLHrXr6ywUQso1Pa1Xx7lJJnM22++8+nf9ff79vF96Raiq+b+1e+jLlUcM0H0x0MAxTrWDASFMuYMBoUq9i0K/UAc/Xwcfa6l6/m23WKIBZfKiWBISoly0lTGSMwgUuJecArLXVljMAIjMC4PhLUmHdaNH14g9JqsIQ3KK3gwGvgtddQ8xUYgeEG02JLrbkGvAZeGzw8PtUW2dhk8mX/eELNV2AEhhMM87cEpbGhdwCsZyiwBMJ2sARbQCwxrFgDo2q+Jb8h9G6H2rVda44pBBOxnI5pVsbklFKkrDmlFbk3RICyWEojw1nShlIHI0JJbr4jwUnVoj+9sALjCVLkI45MRmK/2W+gw4yiHuQAAAAASUVORK5CYII=</icon>
+    <context-menu>
+      <configure-context-menu-item />
+    </context-menu>
+  </dashboard-extension>
+  <resources>
+    <resource id="name">
+      <text locale="en_US">Comparar períodos</text>
+    </resource>
+  </resources>
+</manifest>

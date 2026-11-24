@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparar períodos</title>
+  <link rel="stylesheet" href="style-0.4.css">
+  <script defer src="tableau.extensions.js"></script>
+  <script defer src="targets-0.4.js"></script>
+  <script defer src="app-0.4.js"></script>
+</head>
+<body>
+  <main>
+    <form id="period">
+      <header>
+        <h1>Comparar períodos</h1>
+        <span id="demo" hidden>Prévia</span>
+      </header>
+      <div class="ranges">
+        <div class="range-field">
+          <label class="range-title" id="range-title-0" for="range-0">Período principal</label>
+          <button type="button" class="range" id="range-0" aria-labelledby="range-title-0 summary-0" aria-expanded="false" aria-controls="controls" disabled>
+            <strong id="summary-0">Selecionar datas</strong>
+          </button>
+        </div>
+        <div class="range-field">
+          <label class="range-title" id="range-title-1" for="range-1">Período de comparação</label>
+          <button type="button" class="range" id="range-1" aria-labelledby="range-title-1 summary-1" aria-expanded="false" aria-controls="controls" disabled>
+            <strong id="summary-1">Selecionar datas</strong>
+          </button>
+        </div>
+      </div>
+      <fieldset id="controls" disabled hidden>
+        <legend class="sr-only">Selecione o período</legend>
+        <div class="date-field" role="group" aria-labelledby="date-field-label">
+          <span id="date-field-label">Intervalo de datas</span>
+          <div class="date-values">
+            <label class="sr-only" for="start">Data inicial</label>
+            <input id="start" type="date" required>
+            <span class="date-divider" aria-hidden="true">a</span>
+            <label class="sr-only" for="end">Data final</label>
+            <input id="end" type="date" required>
+          </div>
+        </div>
+        <div class="presets" role="group" aria-label="Atalhos de período">
+          <button type="button" data-preset="month">Este mês</button>
+          <button type="button" data-preset="previous">Mês anterior</button>
+          <button type="button" data-preset="last7">Últimos 7 dias</button>
+          <button type="button" data-preset="last15">Últimos 15 dias</button>
+          <button type="button" data-preset="last30">Últimos 30 dias</button>
+        </div>
+        <div class="calendar-panel">
+          <div class="navigation">
+            <button type="button" id="previous" aria-label="Voltar um mês">‹</button>
+            <p id="instruction" aria-live="polite">Selecione a data inicial</p>
+            <button type="button" id="next" aria-label="Avançar um mês">›</button>
+          </div>
+          <div id="calendars" class="calendars"></div>
+        </div>
+        <footer>
+          <button type="button" id="cancel">Cancelar</button>
+          <button type="submit" id="apply">Aplicar período</button>
+        </footer>
+      </fieldset>
+      <p id="status" role="status" aria-live="polite">Conectando ao Tableau…</p>
+    </form>
+  </main>
+</body>
+</html>

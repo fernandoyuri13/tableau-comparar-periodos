@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurar comparação de períodos</title>
+  <link rel="stylesheet" href="style-0.4.css">
+  <script defer src="tableau.extensions.js"></script>
+  <script defer src="targets-0.4.js"></script>
+  <script defer src="config-0.4.js"></script>
+</head>
+<body class="configuration">
+  <main>
+    <h1>Configurar comparação de períodos</h1>
+    <form id="config" hidden>
+      <label class="mode">Modo de aplicação
+        <select id="mode">
+          <option value="filters">Filtrar planilhas por campo de data</option>
+          <option value="parameters">Atualizar parâmetros do workbook</option>
+        </select>
+      </label>
+      <section id="parameter-controls" hidden>
+        <p>Use parâmetros para comparar dois intervalos na mesma planilha.</p>
+        <div id="parameter-rows"></div>
+      </section>
+      <section id="filter-controls" hidden>
+        <p>Selecione o período e o campo de data em cada planilha que deseja controlar. O campo precisa estar em <strong>Filtros → Intervalo de datas → Somente esta planilha</strong>.</p>
+        <div id="filter-rows"></div>
+      </section>
+      <fieldset class="appearance">
+        <legend>Aparência dos seletores</legend>
+        <label>Título do período principal
+          <input id="title-0" type="text" maxlength="70" placeholder="Período principal">
+        </label>
+        <label>Título do período de comparação
+          <input id="title-1" type="text" maxlength="70" placeholder="Período de comparação">
+        </label>
+        <label>Fonte
+          <input id="font" type="text" maxlength="80" list="font-suggestions" aria-describedby="font-help" placeholder="Usar fonte do workbook">
+          <datalist id="font-suggestions">
+            <option value="Tableau Book">
+            <option value="Tableau Medium">
+            <option value="Segoe UI">
+            <option value="Arial">
+            <option value="Calibri">
+          </datalist>
+          <small id="font-help">Deixe em branco para usar a fonte do workbook. Para uma fonte personalizada, digite o nome da família instalada.</small>
+        </label>
+        <div class="appearance-sizes">
+          <label>Tamanho do título (px)
+            <input id="title-size" type="number" min="10" max="20" placeholder="Automático">
+          </label>
+          <label>Tamanho das datas (px)
+            <input id="value-size" type="number" min="10" max="20" placeholder="Automático">
+          </label>
+        </div>
+      </fieldset>
+      <footer class="config-actions">
+        <button type="button" id="cancel">Cancelar</button>
+        <button type="submit" id="apply">Salvar configuração</button>
+      </footer>
+    </form>
+    <p id="status" role="status" aria-live="polite">Carregando configuração…</p>
+  </main>
+</body>
+</html>
