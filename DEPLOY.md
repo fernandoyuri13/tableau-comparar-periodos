@@ -48,6 +48,10 @@ Tableau Cloud em `online.tableau.com`. Para usar um Tableau Server com domínio
 próprio ou outro endereço Tableau autorizado, adicione o origin HTTPS exato
 à diretiva `frame-ancestors` de `nginx.conf` antes de reconstruir a imagem.
 
+Se o dashboard for incorporado em um portal ou site próprio pela Embedding API
+do Tableau, inclua também a origem HTTPS exata do portal em `frame-ancestors`
+no `nginx.conf`. Sem essa origem na lista, o navegador bloqueia a extensão.
+
 Quando o certificado estiver ativo, teste no navegador:
 
 ```text
