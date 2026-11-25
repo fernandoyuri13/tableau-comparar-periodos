@@ -81,6 +81,19 @@ O projeto inclui um `Dockerfile` para servir a interface com Nginx e um manifest
 de exemplo para a URL HTTPS. Veja o [guia de implantação](DEPLOY.md) para usar
 Dokploy e liberar a extensão no site do Tableau Cloud.
 
+## SDK do Tableau
+
+`public/tableau.extensions.js` é idêntico ao
+[arquivo oficial publicado como 1.17.0](https://github.com/tableau/extensions-api/blob/738f6b89c705edd6da6f27a6854c0da2bbdfb830/lib/tableau.extensions.1.17.0.js).
+O arquivo oficial informa internamente a versão `1.17.0-pre.8`.
+
+SHA-256: `af10dc548b24592b08a23b21ce221aefb6b56c84f45617ad0338789be5e7c20f`.
+
+O SDK inclui a dependência `uuid`. O [CVE-2026-41907](https://osv.dev/vulnerability/CVE-2026-41907)
+afeta as chamadas `v3`, `v5` e `v6` com buffer externo. A única chamada
+identificada no SDK é `v4()` sem buffer. A atualização do pacote embutido
+depende de uma nova distribuição oficial do SDK.
+
 ## Autor
 
 Yuri Fernando dos Santos, [@fernandoyuri13](https://github.com/fernandoyuri13).
