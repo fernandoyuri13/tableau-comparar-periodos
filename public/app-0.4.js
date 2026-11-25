@@ -156,7 +156,7 @@ async function openTableauPicker(index) {
   message("");
   try {
     const url = new URL(location.href);
-    url.search = "?picker=1";
+    url.search = "?picker=1&v=20261125.1";
     url.hash = "";
     const appearance = normalizeAppearance(targets.appearance);
     const response = await tableau.extensions.ui.displayDialogAsync(
@@ -332,7 +332,7 @@ async function configure() {
   message("");
   try {
     const catalog = await configurationCatalog(dashboard);
-    const url = new URL("config-0.4.html", location.href);
+    const url = new URL("config-0.4.html?v=20261125.1", location.href);
     const payload = JSON.stringify({ catalog, targets, workbookFont: workbookFontFamily() });
     const result = await tableau.extensions.ui.displayDialogAsync(
       url.href, payload, { width: 560, height: 600, dialogStyle: tableau.DialogStyle.Modal }
