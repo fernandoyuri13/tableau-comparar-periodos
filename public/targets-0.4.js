@@ -15,11 +15,20 @@ const defaultPeriodTitles = ["Período principal", "Período de comparação"];
 function normalizeAppearance(appearance) {
   const text = value => typeof value === "string" ? value.replace(/[\x00-\x1f\x7f]/g, " ").trim() : "";
   const size = value => Number.isInteger(value) && value >= 10 && value <= 20 ? value : null;
+  const textStyle = (style, defaultBold) => ({
+    bold: typeof style?.bold === "boolean" ? style.bold : defaultBold,
+    italic: style?.italic === true,
+    underline: style?.underline === true
+  });
   return {
     titles: defaultPeriodTitles.map((title, index) => text(appearance?.titles?.[index]).slice(0, 70) || title),
     font: text(appearance?.font).slice(0, 80),
     titleSize: size(appearance?.titleSize),
-    valueSize: size(appearance?.valueSize)
+    valueSize: size(appearance?.valueSize),
+    styles: {
+      titles: textStyle(appearance?.styles?.titles, false),
+      dates: textStyle(appearance?.styles?.dates, true)
+    }
   };
 }
 

@@ -78,7 +78,7 @@ function workbookFontFamily() {
 }
 
 function applyTypography(appearance, workbookFont) {
-  const { font, titleSize, valueSize } = normalizeAppearance(appearance);
+  const { font, titleSize, valueSize, styles } = normalizeAppearance(appearance);
   const style = document.documentElement.style;
   const family = font ? JSON.stringify(font) : workbookFont;
   if (family) {
@@ -89,6 +89,11 @@ function applyTypography(appearance, workbookFont) {
   for (const [property, size] of [["--period-title-size", titleSize], ["--period-value-size", valueSize]]) {
     if (size) style.setProperty(property, size + "px");
     else style.removeProperty(property);
+  }
+  for (const [part, { bold, italic, underline }] of Object.entries(styles)) {
+    style.setProperty("--period-" + part + "-weight", bold ? "bold" : "normal");
+    style.setProperty("--period-" + part + "-style", italic ? "italic" : "normal");
+    style.setProperty("--period-" + part + "-decoration", underline ? "underline" : "none");
   }
 }
 
