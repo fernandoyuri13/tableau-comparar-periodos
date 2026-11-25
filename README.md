@@ -51,7 +51,9 @@ cada período a filtros de planilhas, use o modo **Filtros por planilha**
 descrito na instalação abaixo.
 
 Em **Aparência dos seletores**, ajuste os dois títulos e os tamanhos da fonte
-dos títulos e das datas. Deixe **Fonte** em branco para usar a fonte do
+dos títulos e das datas. No dashboard, você pode combinar **Negrito**,
+**Itálico** e **Sublinhado** separadamente para títulos e datas.
+Deixe **Fonte** em branco para usar a fonte do
 workbook ou informe o nome de uma família instalada. Clique em
 **Salvar configuração** e salve a pasta de trabalho.
 

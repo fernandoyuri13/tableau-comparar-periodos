@@ -91,16 +91,24 @@ async function initializeConfig() {
     const font = document.querySelector("#font");
     const titleSize = document.querySelector("#title-size");
     const valueSize = document.querySelector("#value-size");
+    const styleInputs = document.querySelectorAll("input[data-text-part]");
     titleInputs.forEach((input, index) => { input.value = appearance.titles[index]; });
     font.value = appearance.font;
     if (payload.workbookFont) font.placeholder = payload.workbookFont;
     titleSize.value = appearance.titleSize ?? "";
     valueSize.value = appearance.valueSize ?? "";
+    for (const input of styleInputs) {
+      input.checked = appearance.styles[input.dataset.textPart][input.value];
+    }
     const parameters = renderParameters(previousTargets);
     const filters = renderFilters(previousTargets);
     mode.value = previousTargets.mode;
     form.addEventListener("submit", event => {
       event.preventDefault();
+      const styles = { titles: {}, dates: {} };
+      for (const input of styleInputs) {
+        styles[input.dataset.textPart][input.value] = input.checked;
+      }
       const targets = {
         ...previousTargets,
         mode: mode.value,
@@ -108,7 +116,8 @@ async function initializeConfig() {
           titles: titleInputs.map(input => input.value),
           font: font.value,
           titleSize: titleSize.valueAsNumber,
-          valueSize: valueSize.valueAsNumber
+          valueSize: valueSize.valueAsNumber,
+          styles
         })
       };
       if (mode.value === "parameters") {

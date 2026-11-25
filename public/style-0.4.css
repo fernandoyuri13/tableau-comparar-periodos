@@ -105,6 +105,9 @@ footer { justify-content: flex-end; margin-top: 9px; }
 .range-title {
   align-self: end;
   font-size: var(--period-title-size, 15px);
+  font-weight: var(--period-titles-weight, normal);
+  font-style: var(--period-titles-style, normal);
+  text-decoration: var(--period-titles-decoration, none);
   overflow-wrap: anywhere;
 }
 .range {
@@ -114,8 +117,18 @@ footer { justify-content: flex-end; margin-top: 9px; }
   text-align: left;
   padding: 4px 8px;
 }
-.range strong { font-size: var(--period-value-size, 13px); overflow-wrap: anywhere; }
-.range-date { display: inline-block; max-inline-size: 100%; overflow-wrap: anywhere; }
+.range strong {
+  font-size: var(--period-value-size, 13px);
+  font-weight: var(--period-dates-weight, bold);
+  font-style: var(--period-dates-style, normal);
+  overflow-wrap: anywhere;
+}
+.range-date {
+  display: inline-block;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  text-decoration: var(--period-dates-decoration, none);
+}
 .range[aria-expanded="true"] { border-color: var(--blue); background: #edf4fb; }
 #controls { margin-top: 10px; }
 
@@ -165,3 +178,7 @@ footer { justify-content: flex-end; margin-top: 9px; }
 
 .appearance-sizes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .appearance small { margin-bottom: 2px; }
+.configuration .appearance-style { padding-block: 4px 7px; }
+.style-options { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.configuration .style-options label { display: flex; align-items: center; margin: 0; }
+.style-options input { width: auto; margin: 0; accent-color: var(--blue); }
