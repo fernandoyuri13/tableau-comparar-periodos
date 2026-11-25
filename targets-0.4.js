@@ -85,6 +85,13 @@ function parseSavedTargets(saved) {
 }
 
 function validateTargets(targets, catalog) {
+  if (targets?.mode === "parameters" && Array.isArray(targets.parameters)) {
+    const names = targets.parameters.flat();
+    if (names.length !== 4 || names.some(name => typeof name !== "string" || !name.trim()) ||
+        new Set(names).size !== 4) {
+      throw new Error("Selecione quatro parâmetros de data diferentes.");
+    }
+  }
   validateTargetStructure(targets);
   if (targets.mode === "parameters") {
     const parameters = targets.parameters.flat();
