@@ -89,10 +89,19 @@ O arquivo oficial informa internamente a versão `1.17.0-pre.8`.
 
 SHA-256: `af10dc548b24592b08a23b21ce221aefb6b56c84f45617ad0338789be5e7c20f`.
 
-O SDK inclui a dependência `uuid`. O [CVE-2026-41907](https://osv.dev/vulnerability/CVE-2026-41907)
-afeta as chamadas `v3`, `v5` e `v6` com buffer externo. A única chamada
-identificada no SDK é `v4()` sem buffer. A atualização do pacote embutido
-depende de uma nova distribuição oficial do SDK.
+O SDK inclui o pacote `uuid`, cuja versão exata não foi confirmada no bundle.
+O [CVE-2026-41907](https://osv.dev/vulnerability/CVE-2026-41907) afeta versões
+do pacote anteriores à 14.0.0 nas chamadas `v3`, `v5` e `v6` com buffer externo.
+Na revisão do bundle, a única chamada encontrada foi `v4()` sem buffer.
+Não foi identificado um caminho da extensão até as funções afetadas.
+Um scanner ainda pode sinalizar a dependência embutida. O projeto acompanha
+novas distribuições oficiais do SDK para reavaliar esse achado.
+A revisão não encontrou uma ocorrência pública desse CVE no repositório oficial do Tableau.
+
+O transporte do SDK envia mensagens para a janela pai com `targetOrigin: '*'`
+e filtra as mensagens recebidas pela janela de origem (`event.source`).
+No Nginx, o cabeçalho `frame-ancestors` limita quem pode incorporar a extensão.
+Veja a diferença entre Nginx e GitHub Pages no [guia de implantação](DEPLOY.md#github-pages).
 
 ## Autor
 

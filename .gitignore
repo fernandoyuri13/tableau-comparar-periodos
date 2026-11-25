@@ -1,0 +1,19 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies and local artifacts
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.tmp
+*.bak
+*.zip
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

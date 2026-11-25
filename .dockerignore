@@ -1,0 +1,9 @@
+# Only send the files the Dockerfile copies or uses.
+**
+!Dockerfile
+!nginx.conf
+!public/
+!public/*.html
+!public/*.css
+!public/*.js
+!public/TABLEAU-LICENSE.txt
