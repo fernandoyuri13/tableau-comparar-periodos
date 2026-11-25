@@ -59,23 +59,43 @@ async function configurationCatalog(dashboard) {
   };
 }
 
+function validateTargetStructure(targets) {
+  const isName = value => typeof value === "string" && value.trim().length > 0;
+  if (!["parameters", "filters"].includes(targets?.mode) ||
+      !Array.isArray(targets.parameters) || targets.parameters.length !== 2 ||
+      !targets.parameters.every(pair => Array.isArray(pair) && pair.length === 2 && pair.every(isName)) ||
+      !Array.isArray(targets.filters) ||
+      !targets.filters.every(target => [0, 1].includes(target?.period) && isName(target.worksheet) && isName(target.field))) {
+    throw new Error("Abra Configurar e salve novamente o mapeamento dos períodos.");
+  }
+  if (targets.mode === "parameters" && new Set(targets.parameters.flat()).size !== 4) {
+    throw new Error("Selecione quatro parâmetros de data diferentes.");
+  }
+  if (targets.mode === "filters" &&
+      (new Set(targets.filters.map(target => target.worksheet)).size !== targets.filters.length ||
+      ![0, 1].every(period => targets.filters.some(target => target.period === period)))) {
+    throw new Error("Selecione pelo menos uma planilha diferente para cada período.");
+  }
+}
+
+function parseSavedTargets(saved) {
+  const targets = JSON.parse(saved);
+  validateTargetStructure(targets);
+  return { ...targets, appearance: normalizeAppearance(targets.appearance) };
+}
+
 function validateTargets(targets, catalog) {
+  validateTargetStructure(targets);
   if (targets.mode === "parameters") {
     const parameters = targets.parameters.flat();
-    if (parameters.length !== 4 || new Set(parameters).size !== 4 ||
-        parameters.some(name => !catalog.parameters.includes(name))) {
+    if (parameters.some(name => !catalog.parameters.includes(name))) {
       throw new Error("Selecione quatro parâmetros de data diferentes.");
     }
     return;
   }
-  const sheetNames = targets.filters.map(target => target.worksheet);
-  if (targets.mode !== "filters" || new Set(sheetNames).size !== sheetNames.length ||
-      ![0, 1].every(period => targets.filters.some(target => target.period === period))) {
-    throw new Error("Selecione pelo menos uma planilha diferente para cada período.");
-  }
   for (const target of targets.filters) {
     const sheet = catalog.worksheets.find(item => item.name === target.worksheet);
-    if (![0, 1].includes(target.period) || !sheet?.fields.some(field => field.id === target.field && !field.shared)) {
+    if (!sheet?.fields.some(field => field.id === target.field && !field.shared)) {
       throw new Error('Revise o filtro de data da planilha "' + target.worksheet + '".');
     }
   }

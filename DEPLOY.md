@@ -31,13 +31,22 @@ Em **Domains → Create Domain**, configure:
 | --- | --- |
 | Host | Seu subdomínio, sem protocolo |
 | Path | `/` |
-| Container Port | `80` |
+| Container Port | `8080` |
 | HTTPS | Ativado |
 | Certificate | **Let's Encrypt** |
 
 O Traefik do Dokploy encaminha o tráfego ao contêiner. As conexões HTTP e HTTPS
 chegam à VPS pelas portas 80 e 443. O link na porta 3000 é do painel
 administrativo.
+
+Em uma instalação existente, atualize o **Container Port** de 80 para 8080
+ao implantar a nova imagem. O contêiner roda sem root. As portas públicas
+80 e 443 continuam no Traefik.
+
+O Nginx permite incorporar a extensão em páginas do mesmo endereço e no
+Tableau Cloud em `online.tableau.com`. Para usar um Tableau Server com domínio
+próprio ou outro endereço Tableau autorizado, adicione o origin HTTPS exato
+à diretiva `frame-ancestors` de `nginx.conf` antes de reconstruir a imagem.
 
 Quando o certificado estiver ativo, teste no navegador:
 
@@ -60,3 +69,11 @@ https://tableau-ext.seudominio.com.br/comparar-periodos-0.4.html?preview=1
 
 O contêiner serve apenas a interface estática. Os parâmetros e os filtros
 são aplicados pela API do Tableau, dentro da pasta de trabalho.
+
+## GitHub Pages
+
+O GitHub Pages serve os arquivos estáticos sem passar pelo Nginx. O CSP no
+HTML e a política de referrer valem no Pages. A diretiva `frame-ancestors`
+precisa de um cabeçalho HTTP, então ela vale apenas na implantação com Nginx.
+Antes de atualizar a branch de publicação do Pages, confira a prévia e
+teste a abertura do calendário e da configuração dentro do Tableau.
