@@ -20,6 +20,7 @@ let dashboard;
 let targets = defaultTargets;
 let workbookFormatting;
 let busy = false;
+let invalidSavedConfig = false;
 let activeRange = null;
 let visibleMonth;
 let selectingEnd = false;
@@ -136,7 +137,7 @@ function parseRange(range, requireOrder = true) {
 
 function setBusy(value) {
   busy = value;
-  rangeButtons.forEach(button => { button.disabled = value; });
+  rangeButtons.forEach(button => { button.disabled = value || invalidSavedConfig; });
 }
 
 function todayRange() {
@@ -145,7 +146,7 @@ function todayRange() {
 }
 
 async function openTableauPicker(index) {
-  if (busy) return;
+  if (busy || invalidSavedConfig) return;
   setBusy(true);
   message("");
   try {
@@ -345,6 +346,7 @@ async function configure() {
       throw error;
     }
     targets = nextTargets;
+    invalidSavedConfig = false;
     showAppearance();
     await loadRanges();
   } catch (error) {
@@ -353,6 +355,9 @@ async function configure() {
     }
   } finally {
     setBusy(false);
+    if (invalidSavedConfig && !status.textContent) {
+      message("Abra Configurar e salve novamente o mapeamento dos períodos.", true);
+    }
   }
 }
 
@@ -503,14 +508,24 @@ async function initialize() {
       await tableau.extensions.initializeAsync({ configure });
       dashboard = tableau.extensions.dashboardContent.dashboard;
       const saved = tableau.extensions.settings.get(settingsKey);
-      if (saved) targets = JSON.parse(saved);
+      if (saved !== undefined && saved !== null) {
+        try {
+          targets = parseSavedTargets(saved);
+        } catch {
+          invalidSavedConfig = true;
+        }
+      }
       workbookFormatting = tableau.extensions.environment?.workbookFormatting;
       showAppearance();
       dashboard.addEventListener(tableau.TableauEventType.WorkbookFormattingChanged, event => {
         workbookFormatting = event.formatting;
         showAppearance();
       });
-      await loadRanges();
+      if (invalidSavedConfig) {
+        message("Abra Configurar e salve novamente o mapeamento dos períodos.", true);
+      } else {
+        await loadRanges();
+      }
     }
     rangeButtons.forEach((button, index) => {
       showSummary(index);
@@ -519,7 +534,7 @@ async function initialize() {
         button.removeAttribute("aria-expanded");
         button.removeAttribute("aria-controls");
       }
-      button.disabled = false;
+      button.disabled = invalidSavedConfig;
     });
     if (preview) message("");
   } catch (error) {
