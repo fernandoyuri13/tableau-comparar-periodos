@@ -9,6 +9,52 @@ e comparar indicadores no Tableau Desktop ou no Tableau Cloud.
 - Aplicação por planilha com filtros de intervalo existentes ou por parâmetros
   para comparar duas medidas na mesma planilha.
 
+## Como usar a extensão
+
+### 1. Escolha os períodos no dashboard
+
+![Dois seletores mostrando outubro de 2026 e outubro de 2025](docs/imagens/seletores-de-periodo.png)
+
+Clique na seta de **Período principal** para definir o intervalo que você quer
+analisar. Depois, use **Período de comparação** para escolher a referência.
+No exemplo, outubro de 2026 é comparado com outubro de 2025. Cada seletor
+exibe o intervalo aplicado e pode ser alterado separadamente.
+
+### 2. Selecione as datas no calendário
+
+![Calendário de dois meses com o intervalo de 1 a 31 de outubro de 2026 destacado](docs/imagens/calendario.png)
+
+- Digite as datas no campo **Intervalo de datas** ou clique no primeiro e
+  no último dia no calendário. O azul mais escuro marca as duas pontas e
+  o azul-claro marca os dias entre elas.
+- Use as setas para navegar mês a mês. Dois meses ficam visíveis ao mesmo
+  tempo, o que facilita escolher um intervalo que cruza o fim do mês.
+- Os atalhos **Este mês**, **Mês anterior** e **Últimos 7, 15 ou 30 dias**
+  preenchem o intervalo automaticamente. Os atalhos de 7, 15 e 30 dias incluem hoje.
+- Clique em **Aplicar período** para atualizar o painel ou em **Cancelar**
+  para fechar a janela sem aplicar a seleção.
+
+### 3. Configure os parâmetros e a aparência
+
+![Tela de configuração com quatro parâmetros de data e opções de aparência](docs/imagens/configuracao.png)
+
+Abra **Configurar** no menu do objeto da extensão. No modo **Atualizar parâmetros
+do workbook**, associe quatro parâmetros do tipo **Data** aos dois seletores.
+
+| Seletor | Data inicial | Data final |
+| --- | --- | --- |
+| Período principal | `p_Data_Inicial` | `p_Data_Final` |
+| Período de comparação | `p_Comparacao_Inicial` | `p_Comparacao_Final` |
+
+Esse modo permite comparar duas medidas na mesma planilha. Para direcionar
+cada período a filtros de planilhas, use o modo **Filtros por planilha**
+descrito na instalação abaixo.
+
+Em **Aparência dos seletores**, ajuste os dois títulos e os tamanhos da fonte
+dos títulos e das datas. Deixe **Fonte** em branco para usar a fonte do
+workbook ou informe o nome de uma família instalada. Clique em
+**Salvar configuração** e salve a pasta de trabalho.
+
 ## Testar no Tableau Desktop
 
 Na raiz do projeto, rode o servidor local e mantenha o terminal aberto.
