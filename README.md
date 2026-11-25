@@ -11,6 +11,10 @@ e comparar indicadores no Tableau Desktop ou no Tableau Cloud.
 
 ## Como usar a extensão
 
+Para montar uma comparação do zero, siga o [passo a passo de parâmetros e
+campos calculados](PARAMETROS.md). O exemplo usa um campo de data e um valor
+numérico para exibir os dois períodos na mesma planilha.
+
 ### 1. Escolha os períodos no dashboard
 
 ![Dois seletores mostrando outubro de 2026 e outubro de 2025](docs/imagens/seletores-de-periodo.png)

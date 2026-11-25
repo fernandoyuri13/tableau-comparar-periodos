@@ -1,67 +1,62 @@
-# Comparação por parâmetros
+# Como comparar dois períodos no Tableau
 
-## Configure os parâmetros
+Use o modo **Atualizar parâmetros do workbook** para comparar o mesmo indicador em dois intervalos de datas na mesma planilha.
 
-Use esse modo para comparar as duas medidas na mesma planilha. Em **Configurar**,
-escolha os quatro parâmetros de data. Os nomes abaixo são os valores padrão
-e podem ser reaproveitados se você já montou o workbook.
+## 1. Crie quatro parâmetros
 
+No painel **Dados**, escolha **Criar parâmetro**. Crie os quatro parâmetros abaixo com o tipo **Data** e **Valores permitidos → Todos**. As datas são exemplos.
 
-Crie os quatro parâmetros abaixo, todos do tipo **Data**, com **Valores permitidos**
-em **Todos**. Você pode usar as datas de exemplo na primeira configuração.
+| Seletor | Data inicial | Data final | Exemplo de intervalo |
+| --- | --- | --- | --- |
+| Período principal | `p_Data_Inicial` | `p_Data_Final` | 01/11/2026 a 23/11/2026 |
+| Período de comparação | `p_Comparacao_Inicial` | `p_Comparacao_Final` | 01/10/2026 a 23/10/2026 |
 
-| Seletor | Nome do parâmetro | Valor de exemplo |
-| --- | --- | --- |
-| Principal | `p_Data_Inicial` | 01/11/2026 |
-| Principal | `p_Data_Final` | 23/11/2026 |
-| Comparação | `p_Comparacao_Inicial` | 01/10/2026 |
-| Comparação | `p_Comparacao_Final` | 23/10/2026 |
+## 2. Identifique os registros de cada período
 
-Crie dois campos calculados. Substitua `[Data do Movimento]` pelo campo de data
-da fonte. `DATE()` inclui todo o último dia quando a coluna tem horário.
+Crie dois campos calculados com os nomes abaixo. Substitua `[Data do registro]` pelo campo de data da sua fonte. Os limites são inclusivos. `DATE()` descarta o horário, o que inclui todos os registros do último dia.
 
 **Dentro do período principal**
 
 ```tableau
-DATE([Data do Movimento]) >= [p_Data_Inicial]
-AND DATE([Data do Movimento]) <= [p_Data_Final]
+DATE([Data do registro]) >= [p_Data_Inicial]
+AND DATE([Data do registro]) <= [p_Data_Final]
 ```
 
 **Dentro do período de comparação**
 
 ```tableau
-DATE([Data do Movimento]) >= [p_Comparacao_Inicial]
-AND DATE([Data do Movimento]) <= [p_Comparacao_Final]
+DATE([Data do registro]) >= [p_Comparacao_Inicial]
+AND DATE([Data do registro]) <= [p_Comparacao_Final]
 ```
 
-## Mostre os dois valores na mesma planilha
+## 3. Mostre os dois valores na mesma planilha
 
-Para comparar um indicador aditivo, como quantidade movimentada, crie uma
-medida para cada intervalo e arraste as duas para a visualização. Adapte
-`[Quantidade]` ao seu indicador.
+Substitua `[Valor]` pelo campo numérico que você quer somar. Crie as duas medidas e adicione ambas à visualização.
 
-**Quantidade no período principal**
+**Valor no período principal**
 
 ```tableau
-SUM(IF [Dentro do período principal] THEN [Quantidade] END)
+SUM(IF [Dentro do período principal] THEN [Valor] END)
 ```
 
-**Quantidade no período de comparação**
+**Valor no período de comparação**
 
 ```tableau
-SUM(IF [Dentro do período de comparação] THEN [Quantidade] END)
+SUM(IF [Dentro do período de comparação] THEN [Valor] END)
 ```
 
-Se você usa os filtros de data atuais nessa planilha, confira se eles mantêm
-os registros dos dois intervalos disponíveis. Para mostrar apenas registros
-de um intervalo ou do outro, crie um cálculo com a expressão abaixo e filtre
-por **Verdadeiro**.
+Se já houver um filtro de data na planilha, confira se ele mantém os registros dos dois intervalos. Para exibir apenas registros que pertencem a pelo menos um deles, crie o campo **Dentro dos períodos selecionados**, arraste-o para **Filtros** e selecione **Verdadeiro**.
 
 ```tableau
 [Dentro do período principal] OR [Dentro do período de comparação]
 ```
 
-Para Embalagens, esse exemplo serve para movimentos aditivos. Saldos de abertura
-e fechamento podem depender de registros anteriores ao intervalo. Nesses
-indicadores, use os parâmetros nas regras de saldo antes de limitar as linhas.
+Para indicadores que dependem de registros anteriores ao intervalo, como saldos acumulados, use os parâmetros na lógica do indicador antes de limitar os registros da planilha.
 
+## 4. Configure a extensão no dashboard
+
+1. Adicione a planilha ao dashboard e insira a extensão. Use o [manifesto da versão hospedada](https://fernandoyuri13.github.io/tableau-comparar-periodos/comparar-periodos-cloud.trex) ou siga as [instruções de instalação local](README.md#testar-no-tableau-desktop).
+2. No menu do objeto da extensão, abra **Configurar** e selecione **Atualizar parâmetros do workbook** no campo **Modo de aplicação**.
+3. Associe os quatro parâmetros aos campos de início e fim de cada período, conforme a tabela do passo 1.
+4. Clique em **Salvar configuração** e salve a pasta de trabalho.
+5. Escolha um intervalo em cada seletor e clique em **Aplicar período**. Para verificar o resultado, altere um seletor para um intervalo com registros diferentes e confira se a medida correspondente muda enquanto a do outro período mantém o valor.
